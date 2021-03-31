@@ -27,7 +27,7 @@ for url in urls:
 
     saved_list = set()
     if os.path.exists(f'{path}/savedfile'):
-        with open( f'{path}/savedfile','r' ) as f:
+        with open(f'{path}/savedfile', 'r') as f:
             saved_list = {line.strip() for line in f.readlines()}
 
     src_list = list(src_list - saved_list)
@@ -46,14 +46,14 @@ for url in urls:
                 print(f'[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] connect {src} timeout !')
             else:
                 img = response.content
-                with open( f'{path}/{file_name}','wb' ) as f:
+                with open(f'{path}/{file_name}', 'wb') as f:
                     f.write(img)
                 time.sleep(3)
         if os.path.exists(f'{path}/{file_name}'):
-            with open( f'{path}/savedfile','a' ) as f:
+            with open(f'{path}/savedfile', 'a') as f:
                 f.write(f'{src}\n')
         else:
-            with open( f'{path}/missingfile','a' ) as f:
+            with open(f'{path}/missingfile', 'a') as f:
                 f.write(f'{src}\n')
 
     print(f'[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] {title} over!')
