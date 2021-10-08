@@ -5,17 +5,33 @@ import os
 import re
 import time
 import requests
+from PIL import Image
 from pprint import pprint
 from datetime import datetime
 from multiprocessing import Pool
+
+"""
+多进程爬虫
+"""
 
 urls = []
 
 processes = 5
 
 
+def is_damaged(path: str) -> bool:
+    damaged = False
+    try:
+        Image.open(path).load()
+    except OSError:
+        damaged = True
+    return damaged
+
+
 def download(src):
     file_name = src.split('/')[-1]
+    save_path = os.path.join(path, file_name)
+    is_finish = False
     print(f'[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] downloading {path}/{file_name} ...')
     for i in range(5):
         try:
@@ -24,15 +40,18 @@ def download(src):
             print(f'[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] connect {src} timeout !')
         else:
             img = response.content
-            with open(f'{path}/{file_name}', 'wb') as f:
+            with open(save_path, 'wb') as f:
                 f.write(img)
             time.sleep(3)
-    if os.path.exists(f'{path}/{file_name}'):
+            is_finish = not is_damaged(save_path)
+            if is_finish:
+                break
+    if os.path.exists(save_path) and is_finish:
         with open(f'{path}/savedfile', 'a') as f:
             f.write(f'{src}\n')
-    else:
-        with open(f'{path}/missingfile', 'a') as f:
-            f.write(f'{src}\n')
+    # else:
+    #     with open(f'{path}/missingfile', 'a') as f:
+    #         f.write(f'{src}\n')
 
 
 if __name__ == '__main__':
