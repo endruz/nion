@@ -1,3 +1,18 @@
-# *.code-workspace
-venv/
+# idea
+.idea/
+
+# vscode
+.vscode/
+*.code-workspace
+
+# virtual env
+.venv/
+.python-version
+
+# compiled file
+*.pyc
+*.so
+__pycache__/
+
+# generated file
 download/
