@@ -8,7 +8,7 @@ httpcore==0.13.7
 httpx==0.19.0
 idna==3.2
 mccabe==0.6.1
-Pillow==8.3.2
+Pillow==9.0.0
 pycodestyle==2.7.0
 pyflakes==2.3.1
 requests==2.26.0
